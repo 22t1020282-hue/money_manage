@@ -16,7 +16,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool _isLoading = false;
 
   void _register() async {
-    // 1. Kiểm tra nhập liệu
+   
     if (_nameController.text.isEmpty ||
         _emailController.text.isEmpty ||
         _passwordController.text.isEmpty) {
@@ -35,7 +35,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     setState(() => _isLoading = true);
 
-    // 2. Gọi API Đăng ký
+   
     final result = await AuthService.register(
       email: _emailController.text.trim(),
       password: _passwordController.text,
@@ -44,17 +44,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     setState(() => _isLoading = false);
 
-    // 3. Xử lý kết quả
+   
     if (result.success) {
       if (!mounted) return;
-      // Thông báo thành công
+      
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('✅ Đăng ký thành công! Hãy đăng nhập.'),
           backgroundColor: Colors.green,
         ),
       );
-      // Quay lại màn hình đăng nhập
+      
       Navigator.pop(context);
     } else {
       if (!mounted) return;
@@ -78,7 +78,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             const Icon(Icons.person_add, size: 80, color: Colors.blue),
             const SizedBox(height: 20),
             
-            // Tên
+           
             TextField(
               controller: _nameController,
               decoration: const InputDecoration(
@@ -89,7 +89,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             const SizedBox(height: 16),
 
-            // Email
+           
             TextField(
               controller: _emailController,
               decoration: const InputDecoration(
@@ -100,7 +100,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             const SizedBox(height: 16),
 
-            // Mật khẩu
+           
             TextField(
               controller: _passwordController,
               obscureText: true,
@@ -112,7 +112,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             const SizedBox(height: 16),
 
-            // Nhập lại mật khẩu
+           
             TextField(
               controller: _confirmPasswordController,
               obscureText: true,
@@ -124,7 +124,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             const SizedBox(height: 30),
 
-            // Nút Đăng ký
+           
             SizedBox(
               width: double.infinity,
               height: 50,

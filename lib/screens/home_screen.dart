@@ -259,8 +259,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           child: ListTile(
             contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            onTap: () async { // <--- 1. Thêm từ khóa async
-              // 2. Thêm await vào trước Navigator
+            onTap: () async { 
               await Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -268,7 +267,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               );
               
-              // 3. Sau khi quay về, gọi hàm làm mới dữ liệu ngay lập tức
+
               if (context.mounted) {
                  _refreshData();
               }

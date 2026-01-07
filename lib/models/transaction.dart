@@ -25,7 +25,7 @@ class Transaction {
       date: DateTime.parse(json['date']),
       type: json['type'],
       userId: json['userId'] ?? '',
-      // Nếu dữ liệu cũ trên API chưa có category thì mặc định là 'Khác'
+ 
       category: json['category'] ?? 'Khác', 
     );
   }
@@ -37,7 +37,7 @@ class Transaction {
       'date': date.toIso8601String(),
       'type': type,
       'userId': userId,
-      'category': category, // <--- Gửi category lên API
+      'category': category, 
     };
   }
 }

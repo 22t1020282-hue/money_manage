@@ -6,7 +6,7 @@ import '../models/transaction.dart';
 import '../providers/user_provider.dart';
 
 class AddTransactionScreen extends StatefulWidget {
-  // Thêm tham số này để nhận dữ liệu cần sửa (nếu có)
+
   final Transaction? transaction;
 
   const AddTransactionScreen({super.key, this.transaction});
@@ -25,7 +25,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
   String _selectedCategory = 'Ăn uống'; 
   bool _isLoading = false;
 
-  // Danh sách danh mục (Giữ nguyên)
+
   final Map<String, IconData> _expenseCategories = {
     'Ăn uống': Icons.restaurant,
     'Di chuyển': Icons.directions_car,
@@ -48,7 +48,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
   @override
   void initState() {
     super.initState();
-    // KIỂM TRA: Nếu là chế độ Sửa (có dữ liệu truyền vào) -> Điền sẵn thông tin
+
     if (widget.transaction != null) {
       _titleController.text = widget.transaction!.title;
       _amountController.text = widget.transaction!.amount.toInt().toString(); // Bỏ số thập phân cho đẹp
@@ -75,9 +75,9 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
 
       setState(() => _isLoading = true);
 
-      // Tạo object transaction mới (dùng cho cả Thêm và Sửa)
+
       final transactionData = Transaction(
-        id: widget.transaction?.id ?? '', // Nếu sửa thì giữ ID cũ, thêm thì để trống
+        id: widget.transaction?.id ?? '', 
         title: _titleController.text.isEmpty ? _selectedCategory : _titleController.text,
         amount: double.parse(_amountController.text),
         date: _selectedDate,
@@ -89,10 +89,10 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
       final provider = Provider.of<TransactionProvider>(context, listen: false);
 
       if (widget.transaction == null) {
-        // --- CHẾ ĐỘ THÊM ---
+
         await provider.addTransaction(transactionData);
       } else {
-        // --- CHẾ ĐỘ SỬA ---
+
         await provider.updateTransaction(transactionData);
       }
 
@@ -108,9 +108,9 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
     final mainColor = isExpense ? const Color(0xFFFF3D00) : const Color(0xFF00C853);
     final categories = isExpense ? _expenseCategories : _incomeCategories;
 
-    // Logic để không bị lỗi khi chuyển type mà category cũ không tồn tại
+
     if (!categories.containsKey(_selectedCategory)) {
-        // Nếu đang ở chế độ sửa và category khớp thì giữ nguyên, không thì reset
+
         if (widget.transaction != null && widget.transaction!.type == _selectedType) {
            _selectedCategory = widget.transaction!.category;
         } else {
@@ -121,7 +121,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        // Đổi tiêu đề tùy theo chế độ
+
         title: Text(widget.transaction == null ? 'Thêm giao dịch' : 'Sửa giao dịch', 
             style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
         backgroundColor: Colors.white,
@@ -138,7 +138,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // 1. SWITCHER (Chỉ cho phép chọn nếu là Thêm mới, Sửa thì nên hạn chế đổi loại để tránh rắc rối logic, nhưng cho đổi cũng được)
+
               Container(
                 padding: const EdgeInsets.all(4),
                 decoration: BoxDecoration(color: Colors.grey.shade100, borderRadius: BorderRadius.circular(25)),
@@ -151,7 +151,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
               ),
               const SizedBox(height: 30),
 
-              // 2. SỐ TIỀN
+
               TextFormField(
                 controller: _amountController,
                 keyboardType: TextInputType.number,
@@ -167,7 +167,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
               const Divider(),
               const SizedBox(height: 20),
 
-              // 3. CHỌN DANH MỤC
+
               const Text('Danh mục', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
               const SizedBox(height: 10),
               GridView.builder(
@@ -206,7 +206,6 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
 
               const SizedBox(height: 20),
 
-              // 4. TIÊU ĐỀ & NGÀY
               TextFormField(
                 controller: _titleController,
                 decoration: InputDecoration(
@@ -243,7 +242,7 @@ class _AddTransactionScreenState extends State<AddTransactionScreen> {
                   style: ElevatedButton.styleFrom(backgroundColor: mainColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
                   child: _isLoading 
                     ? const CircularProgressIndicator(color: Colors.white) 
-                    // Đổi chữ nút Lưu
+
                     : Text(widget.transaction == null ? 'Lưu giao dịch' : 'Cập nhật', 
                         style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white)),
                 ),

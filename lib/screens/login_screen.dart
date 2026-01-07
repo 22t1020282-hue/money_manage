@@ -13,14 +13,14 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  // 1. Xóa text điền sẵn trong ngoặc ('...') để ô trống trơn
+  
   final _emailController = TextEditingController(); 
   final _passwordController = TextEditingController();
   
   bool _isLoading = false;
 
   void _login() async {
-    // Kiểm tra nếu người dùng chưa nhập gì
+   
     if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('⚠️ Vui lòng nhập đầy đủ Email và Mật khẩu')),
@@ -30,9 +30,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
     setState(() => _isLoading = true);
 
-    // Gọi API đăng nhập
+  
     final result = await AuthService.login(
-      email: _emailController.text.trim(), // trim() để cắt khoảng trắng thừa
+      email: _emailController.text.trim(), 
       password: _passwordController.text,
     );
 
@@ -40,11 +40,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (result.success) {
       if (!mounted) return;
-      // Lưu thông tin (giả lập)
+     
       Provider.of<UserProvider>(context, listen: false).setUser(result.user);
       await AuthService.saveAuthData(result.token, result.user);
       
-      // Chuyển sang màn hình chính
+      
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const HomeScreen()),
@@ -70,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white, // Nền trắng sạch sẽ
+      backgroundColor: Colors.white, 
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),
@@ -79,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: 40),
-              // Logo
+              
               const Icon(
                 Icons.account_balance_wallet,
                 size: 80,
@@ -103,13 +103,13 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 40),
 
-              // --- Ô NHẬP EMAIL ---
+             
               TextField(
                 controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   labelText: 'Email',
-                  hintText: 'Hãy nhập email của bạn', // Chữ mờ nhắc nhở
+                  hintText: 'Hãy nhập email của bạn', 
                   hintStyle: const TextStyle(color: Colors.grey),
                   prefixIcon: const Icon(Icons.email_outlined),
                   border: OutlineInputBorder(
@@ -123,13 +123,13 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 16),
 
-              // --- Ô NHẬP MẬT KHẨU ---
+            
               TextField(
                 controller: _passwordController,
-                obscureText: true, // Ẩn mật khẩu
+                obscureText: true, 
                 decoration: InputDecoration(
                   labelText: 'Mật khẩu',
-                  hintText: 'Hãy nhập mật khẩu', // Chữ mờ nhắc nhở
+                  hintText: 'Hãy nhập mật khẩu', 
                   hintStyle: const TextStyle(color: Colors.grey),
                   prefixIcon: const Icon(Icons.lock_outline),
                   border: OutlineInputBorder(
@@ -144,7 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
               
               const SizedBox(height: 24),
 
-              // --- NÚT ĐĂNG NHẬP ---
+             
               SizedBox(
                 height: 50,
                 child: ElevatedButton(
@@ -166,15 +166,15 @@ class _LoginScreenState extends State<LoginScreen> {
 
               const SizedBox(height: 20),
               
-              // Nút chuyển qua Đăng ký (nếu cần)
+
               TextButton(
                 onPressed: () {
-                   // --- SỬA LẠI ĐOẠN NÀY ---
+                  
                    Navigator.push(
                      context,
                      MaterialPageRoute(builder: (context) => const RegisterScreen()),
                    );
-                   // ------------------------
+                   
                 },
                 child: const Text('Chưa có tài khoản? Đăng ký ngay'),
            ),

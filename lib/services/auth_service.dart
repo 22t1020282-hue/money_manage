@@ -4,10 +4,10 @@ import '../models/user.dart';
 import '../models/auth_response.dart';
 
 class AuthService {
-  // URL API THẬT CỦA BẠN
+ 
   static const String baseUrl = 'https://695d05f279f2f34749d6b423.mockapi.io';
 
-  // --- HÀM HỖ TRỢ: TẠO USER RỖNG (Để code gọn hơn) ---
+  
   static User _emptyUser() {
     return User(
       id: '',
@@ -17,7 +17,7 @@ class AuthService {
     );
   }
   
-  // 1. ĐĂNG KÝ
+  
   static Future<AuthResponse> register({
     required String email,
     required String password,
@@ -31,7 +31,7 @@ class AuthService {
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
           'email': email,
-          'password': password, // MockAPI lưu plain text
+          'password': password, 
           'name': name,
           'createdAt': DateTime.now().toIso8601String(),
         }),
@@ -67,7 +67,7 @@ class AuthService {
     }
   }
   
-  // 2. ĐĂNG NHẬP (Đã sửa logic trùng Email)
+  
   static Future<AuthResponse> login({
     required String email,
     required String password,
@@ -75,7 +75,7 @@ class AuthService {
     try {
       print('📡 [API] Đang gửi request đăng nhập...');
       
-      // Query user theo email
+     
       final response = await http.get(
         Uri.parse('$baseUrl/user?email=$email'),
         headers: {'Content-Type': 'application/json'},
@@ -95,15 +95,14 @@ class AuthService {
           );
         }
         
-        // --- LOGIC MỚI: TÌM USER KHỚP PASSWORD ---
+       
         try {
-          // MockAPI có thể trả về nhiều user cùng email
-          // Ta tìm người nào có password khớp với cái người dùng nhập
+          
           final userData = data.firstWhere(
             (user) => user['password'] == password,
           );
 
-          // Nếu tìm thấy:
+          
           return AuthResponse(
             success: true,
             message: '🎉 Đăng nhập thành công!',
@@ -112,7 +111,7 @@ class AuthService {
           );
 
         } catch (e) {
-          // Nếu duyệt hết danh sách mà không ai khớp password
+         
           return AuthResponse(
             success: false,
             message: '🔐 Mật khẩu không đúng',
@@ -120,7 +119,7 @@ class AuthService {
             user: _emptyUser(),
           );
         }
-        // ------------------------------------------
+      
 
       } else {
         return AuthResponse(
@@ -141,18 +140,18 @@ class AuthService {
     }
   }
   
-  // 3. LƯU TOKEN (Đã fix lỗi RangeError)
+  
   static Future<void> saveAuthData(String token, User user) async {
     print('💾 Đang lưu thông tin đăng nhập...');
     
-    // In token ra console an toàn (không dùng substring nữa)
+    
     print('Token: $token'); 
     
-    // Giả lập thời gian lưu
+   
     await Future.delayed(const Duration(milliseconds: 300));
   }
   
-  // 4. CÁC HÀM KHÁC
+ 
   static Future<bool> checkLoginStatus() async {
     await Future.delayed(const Duration(milliseconds: 200));
     return false;
